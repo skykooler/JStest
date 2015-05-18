@@ -83,7 +83,6 @@ function createHtml(m){
         el.setAttribute(name, value);
     }
     children.forEach(function(child){
-        // if (typeof child === 'string'){
         if (!toClass.call(child).match('Array')){
             el.appendChild(document.createTextNode(child));
         }
@@ -94,71 +93,14 @@ function createHtml(m){
     return el;
 }
 
-function init(){
-    // Initial set up of DOM elements
-	var metrics = {
-		'Rank':'rank',
-		'Unique Visitors':'uv',
-		'Page Views':'pv',
-		'Average Stay':'avgstay',
-		'Visits/Person':'vpp',
-		'Pages/Visit':'ppv',
-		'Attention':'att'
-	};
-	Object.keys(metrics).forEach(function(e){
-        gebi('metric').appendChild(createHtml(['option', e]));
-	});
-    gebi('go').addEventListener('click', function (e) {
-        var met = metrics[gebi('metric').value];
-		var domain = gebi('domain').value;
-		var start_date = document.querySelector('[name=start_date]').value.replace('-', '');
-		var end_date = document.querySelector('[name=end_date]').value.replace('-', '');
-		var latest = document.querySelector('[name=latest]').value;
-
-		var api_key = '27953e450d095eb57efe7d37187f0ae8';
-
-		var url = 'https://apps.compete.com/sites/' + domain + '/trended/'+met+'/?apikey='+api_key;
-
-		if (start_date && end_date)
-			url += '&start_date='+start_date+'&end_date='+end_date;
-		else if (latest)
-			url += '&latest='+latest;
-
-		url += '&jsonp=dealWithIt';
-
-		makeChart(url, gebi('metric').value, met, domain);
-        
-    });
-
-	gebi('clearStartEnd').onclick = function(e){
-        ['[name=start_date]', '[name=end_date]'].forEach(function (selector) {
-            document.querySelector(selector).value = '';
-        });
-	};
-
-	gebi('clearLatest').onclick = function(e){
-        document.querySelector('[name=latest]').value = '';
-	};
-}
-
-function makeChart(url, metricName, metricCode, domain){
-
-    window.dealWithIt = function (data) {
-        makeChart2(data, metricName, metricCode, domain);
-    };
-    /***** They will figure out this part themselves ******/
-    var script_tag = createHtml(['script']);
-    script_tag.async = true;
-    script_tag.type = 'text/javascript';
-    script_tag.src = url;
-    document.body.appendChild(script_tag);
-    /***** ****/
-}
-
-window.onload = init;
-
-function makeChart2 (data, metricName, metricCode, domain) {
-    console.log(data);
+function makeChart (data, metricName, metricCode, domain) {
+    // This function is used to create the Highcharts graph with the
+    // data you retrieve from Compete.  `data` is just the data from
+    // the server metricName is a key in the variable `metrics` in
+    // init.  metricCode is the corresponding value to metricName
+    // domain is the domain we are investigating.  Don't worry about
+    // trying to understand this function.  Just give it the right
+    // inputs and it will give you the right outputs
     function getUTC(datestring){
 		return Date.UTC(datestring.substring(0,4), datestring.substring(4)-1);
 	}
@@ -265,3 +207,52 @@ function makeChart2 (data, metricName, metricCode, domain) {
 		}]
 	});
 }
+
+
+function init(){
+    // Initial set up of DOM elements
+    gebi('clearStartEnd').onclick = function(e){
+        ['[name=start_date]', '[name=end_date]'].forEach(function (selector) {
+            document.querySelector(selector).value = '';
+        });
+	};
+
+	gebi('clearLatest').onclick = function(e){
+        document.querySelector('[name=latest]').value = '';
+	};
+    
+	var metrics = {
+		'Rank':'rank',
+		'Unique Visitors':'uv',
+		'Page Views':'pv',
+		'Average Stay':'avgstay',
+		'Visits/Person':'vpp',
+		'Pages/Visit':'ppv',
+		'Attention':'att'
+	};
+	Object.keys(metrics).forEach(function(e){
+        gebi('metric').appendChild(createHtml(['option', e]));
+	});
+    
+    gebi('go').addEventListener('click', function (e) {
+        
+        
+        // Here are some values that may prove necessary to complete this task:
+        var met = metrics[gebi('metric').value],
+		    domain = gebi('domain').value,
+		    start_date = document.querySelector('[name=start_date]').value,
+		    end_date = document.querySelector('[name=end_date]').value,
+		    latest = document.querySelector('[name=latest]').value,
+		    api_key = '27953e450d095eb57efe7d37187f0ae8',
+		    url = 'https://apps.compete.com/sites/' + domain + '/trended/'+met+'/?apikey='+api_key;
+
+        // That's it!  Now that we've covered everything, you can begin the test.
+        // +++ TEST BEGINS +++ //
+        
+    });
+
+
+}
+
+window.onload = init;
+
