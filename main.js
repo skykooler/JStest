@@ -243,8 +243,7 @@ function init(){
 		    start_date = document.querySelector('[name=start_date]').value,
 		    end_date = document.querySelector('[name=end_date]').value,
 		    latest = document.querySelector('[name=latest]').value,
-		    api_key = '27953e450d095eb57efe7d37187f0ae8',
-		    url = 'https://apps.compete.com/sites/' + domain + '/trended/'+met+'/?apikey='+api_key;
+		    api_key = '27953e450d095eb57efe7d37187f0ae8';
 
         // That's it!  Now that we've covered everything, you can begin the test.
         // +++ TEST BEGINS +++ //
