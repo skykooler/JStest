@@ -49,18 +49,18 @@ function makeChart (data, metricName, metricCode, domain) {
 
     
     function getUTC(datestring){
-		return Date.UTC(datestring.substring(0,4), datestring.substring(4)-1);
-	}
+        return Date.UTC(datestring.substring(0,4), datestring.substring(4)-1);
+    }
     var met = data.data.trends[metricCode];
-	console.log(met);
-	var firstdate = met[0].date;
-	var year = parseInt(firstdate.substring(0,4));
-	var month = parseInt(firstdate.substring(4));
+    console.log(met);
+    var firstdate = met[0].date;
+    var year = parseInt(firstdate.substring(0,4));
+    var month = parseInt(firstdate.substring(4));
     new Highcharts.Chart({
-		chart:{
+        chart:{
             renderTo:'container',
             type:'area',
-			zoomType:'x',
+            zoomType:'x',
             resetZoomButton: {
                 position: {
                     x: 0,
@@ -73,15 +73,15 @@ function makeChart (data, metricName, metricCode, domain) {
             spacingBottom: 5,
             spacingRight: 5,
             spacingLeft: 5
-		},
-		title:{
-			text:metricName + ' at ' + domain,
+        },
+        title:{
+            text:metricName + ' at ' + domain,
             style: {
                 color: 'rgba(2, 50, 71, .9)',
                 fontSize: '24px',
                 fontFamily: '\'Montserrat\''
             }
-		},
+        },
         legend: {
             verticalAlign:"top",
             y:30,
@@ -95,9 +95,9 @@ function makeChart (data, metricName, metricCode, domain) {
         credits: {
             enabled: false
         },
-		xAxis:{
-			type:'datetime',
-			minRange:14*24*3600000,
+        xAxis:{
+            type:'datetime',
+            minRange:14*24*3600000,
             lineWidth: 1,
             labels: {
                 style: {
@@ -106,12 +106,12 @@ function makeChart (data, metricName, metricCode, domain) {
                     fontFamily: 'Montserrat'
                 }
             }
-		},
-		yAxis:{
-			title:{
-				text:metricName
-			}
-		},
+        },
+        yAxis:{
+            title:{
+                text:metricName
+            }
+        },
         plotOptions: {
             area: {
                 marker: {
@@ -145,13 +145,13 @@ function makeChart (data, metricName, metricCode, domain) {
                 }
             }
         },
-		series:[{
-			type:'area',
-			name:metricName,
-			pointInterval:30*24*3600*1000,
-			pointStart: Date.UTC(year, month-1),
-			data:met.map(function(e){return [getUTC(e.date), parseFloat(e.value)];})
-		}]
-	});
+        series:[{
+            type:'area',
+            name:metricName,
+            pointInterval:30*24*3600*1000,
+            pointStart: Date.UTC(year, month-1),
+            data:met.map(function(e){return [getUTC(e.date), parseFloat(e.value)];})
+        }]
+    });
 }
 
