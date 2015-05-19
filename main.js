@@ -1,27 +1,53 @@
 // This is the JavaScript test.  In this test, you will pull website
 // performance data from the Compete.com API and use it to display a
-// graph with the charting library, Highcharts.  This test attempts to
-// measure a few things.  We want to assess your ability to read
-// documentation that may include erroneous material, in spite of
-// which you will produce a clean-coded, functional application.  On a
-// related note, this test will also draw attention to how cleanly you
-// can integrate and unfamiliar, third party API on limited time.
-// This test will require that you demonstrate your understanding (or
-// lack thereof muah ha ha) of HTTP, JavaScript, the DOM, and just how
-// the different components of a dynamic web application fit together
-// to produce what they do
+// graph.
 
-// Here is the documentation on the compete api: https://developer.compete.com/documentation/
-// Jump to the very bottom.  Read the section about JSONP carefully because that is how you will request data from Compete.
+// Your finished product will be a page where the user can enter a
+// domain, specify a metric from the drop down, and optionally specify
+// a date range or the last x months from which to gather data.  When
+// they click the GO button, a chart should appear.  Additionally, the
+// user should be able to change these inputs and load a different
+// chart WITHOUT refreshing the page.
+
+// This is the only file you may edit.  You are welcome to create as
+// many new files as you want and modify them, but it is strongly
+// advised that you do not modify index.html or highcharts-custom.js.
+// index.html is pre set up enough that you can complete the test
+// without changing it.  You will of course need to carefully review
+// index.html throughout the test as it contains the dom elements you
+// will need to either manipulate or read values from.  If you do end
+// up modifying index.html, you may not do so to add script tags for
+// external JavaScript libraries like jQuery.  At Idea Evolver, we try
+// to use jQuery as little as possible because it is large to load and
+// has much worse performance than raw JS.
+
+// The documentation for Compete.com is located here: https://developer.compete.com/documentation/
+
+// Jump to the very bottom of the documentation page.  Read the
+// section about JSONP carefully because that is how you will request
+// data from Compete.  Unfortunately, there is a small error in the
+// sample code for JSONP, but an ace coder fit to work at Idea Evolver
+// should be able to figure it out anyway :)
+
+// The API Key for Compete is 27953e450d095eb57efe7d37187f0ae8
+
+// Feel free to ask lots of questions and think aloud.
 
 function makeChart (data, metricName, metricCode, domain) {
+    // Params:
+    // `data` - the raw data Compete gives you after the JSONP request
+    // `metricName` - a name from the Metric drop down.
+    // `metricCode` - the corresponding value denoted in each metricName <option>
+    // `domain`  -  the domain of interest.
+    
     // This function is used to create the Highcharts graph with the
-    // data you retrieve from Compete.  `data` is just the data from
-    // the server metricName is a key in the variable `metrics` in
-    // init.  metricCode is the corresponding value to metricName
-    // domain is the domain we are investigating.  Don't worry about
-    // trying to understand this function.  Just give it the right
-    // inputs and it will give you the right outputs
+    // data you retrieve from Compete.
+    
+    // Don't try to understand this function.  Just give it the right
+    // inputs and it will create the chart and render it into the page
+    // for you.
+
+    
     function getUTC(datestring){
 		return Date.UTC(datestring.substring(0,4), datestring.substring(4)-1);
 	}
