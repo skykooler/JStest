@@ -155,3 +155,54 @@ function makeChart (data, metricName, metricCode, domain) {
     });
 }
 
+var domain, metric, metricText
+
+function getData() {
+    domain = document.getElementById('domain').value
+    metric = document.getElementById("metric").value
+    metricText = document.getElementById("metric").options[document.getElementById("metric").selectedIndex].text
+
+    var startDate = new Date(document.getElementsByName("start_date")[0].value)
+    var endDate = new Date(document.getElementsByName("end_date")[0].value)
+
+    var monthscount = parseInt(document.getElementsByName("latest")[0].value)
+
+    if ((isNaN(startDate) || isNaN(endDate)) && (document.getElementsByName("start_date")[0].value!="" || document.getElementsByName("end_date")[0].value!="")) {
+        document.getElementById("error").innerHTML = "Invalid Dates.";
+        return;
+    } else {
+        document.getElementById("error").innerHTML = "";
+    }
+    
+    var scr = document.createElement('script')
+    if (!isNaN(startDate) && !isNaN(endDate)) {
+        var startDateString = startDate.getFullYear()+''+("0" + (startDate.getMonth()+1)).slice(-2);
+        var endDateString = endDate.getFullYear()+''+("0" + (endDate.getMonth()+1)).slice(-2);
+        scr.src = 'https://apps.compete.com/sites/'+domain+'/trended/'+metric+'/?apikey=27953e450d095eb57efe7d37187f0ae8&start_date='+startDateString+'&end_date='+endDateString+'&jsonp=chartData'
+    } else if (!isNaN(monthscount)) {
+        scr.src = 'https://apps.compete.com/sites/'+domain+'/trended/'+metric+'/?apikey=27953e450d095eb57efe7d37187f0ae8&latest='+monthscount+'&jsonp=chartData'
+    } else {
+        scr.src = 'https://apps.compete.com/sites/'+domain+'/trended/'+metric+'/?apikey=27953e450d095eb57efe7d37187f0ae8&jsonp=chartData'
+    }
+    document.body.appendChild(scr)
+}
+
+function chartData(result) {
+    makeChart(result,metricText,metric,domain)
+}
+
+function clearStartEnd() {
+    document.getElementsByName("start_date")[0].value = ''
+    document.getElementsByName("end_date")[0].value = ''
+}
+
+function clearLatest() {
+    document.getElementsByName("latest")[0].value = ''
+}
+
+// This needs to be run after the HTML is loaded
+window.onload = function () {
+    document.getElementById('go').addEventListener("click", getData)
+    document.getElementById('clearStartEnd').addEventListener("click", clearStartEnd)
+    document.getElementById('clearLatest').addEventListener("click", clearLatest)
+}
